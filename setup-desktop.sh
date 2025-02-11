@@ -9,14 +9,15 @@
 #install softwares trough rpm !!done
 #install softwares trough flatpak/flathub !!done
 #install copr repos !!done
-#add gedit comands for gnome TODO
+#setup fish TODO
+#add gconf comands for gnome TODO
 #- removing hibernation - search it up TODO
 #- adding vim motions to notes TODO
-#source config files at the end TODO
-#add Dependencies
+#source config files at the end !!done
+#add Dependencies !!done
 # gnome extensions !!done
-# install docker - maybe make in another file TODO
-#Update packages  TODO
+# install docker - maybe make in another file !!done
+#Update packages !!done
 
 # maybe separate the scripts for modularity
 
@@ -67,10 +68,24 @@ flatpak_array=(
     "app.zen_browser.zen"
 )
 
+dotfiles_array(
+    ".aliasrc" ".bashrc" ".zshrc"
+    "config" "alacritty.toml" "kitty.conf"
+)
+
 sudo dnf update -y 
 sudo dnf upgrade
 
 # Functions
+
+sourcing(){
+    for file in dotfiles_array; do
+        if [ -f $HOME/.dotfiles/$file ]; then
+            source $file
+        fi
+    done
+}
+
 install-copr() {
     local packages=("$@")
     for package in "${packages[@]}"; do
@@ -136,13 +151,13 @@ install-copr
 install-rpm
 install-flatpak
 
-if [ -f $PWD/setup-docker.sh]; then
+if [ -f $PWD/setup-docker.sh ]; then
     . $PWD/setup-docker.sh
 fi
 
 #Creating directories
 [ -d "/home/jg/git" ] && echo "Directory exists" || echo "making git directory"; mkdir /home/jg/git 
-
+ 
 [ -d "/home/jg/.dotfiles" ] && echo "Directory exists" || echo "making git directory"; mkdir /home/jg/.dotfiles
 
 #setup ssh keys TODO
@@ -161,4 +176,10 @@ ln -s $HOME/.dotfiles/.aliasrc $HOME/.aliasrc
 [ -d "$HOME/.config/ghostty" ] && mkdir $HOME/.config/ghostty && ln -s $HOME/.dotfiles/config $HOME/.config/ghostty
 
 
+#for last 
+sudo dnf update -y && sudo dnf upgrade -y
 
+flatpak update -y
+
+
+sourcing
