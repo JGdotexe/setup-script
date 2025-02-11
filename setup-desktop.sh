@@ -136,6 +136,10 @@ install-copr
 install-rpm
 install-flatpak
 
+if [ -f $PWD/setup-docker.sh]; then
+    . $PWD/setup-docker.sh
+fi
+
 #Creating directories
 [ -d "/home/jg/git" ] && echo "Directory exists" || echo "making git directory"; mkdir /home/jg/git 
 
