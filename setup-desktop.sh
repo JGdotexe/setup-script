@@ -156,9 +156,9 @@ if [ -f $PWD/setup-docker.sh ]; then
 fi
 
 #Creating directories
-[ -d "/home/jg/git" ] && echo "Directory exists" || echo "making git directory"; mkdir /home/jg/git 
+[ -d "/home/jg/git" ] && echo "Directory already exists" || echo "making git directory"; mkdir $HOME/git 
  
-[ -d "/home/jg/.dotfiles" ] && echo "Directory exists" || echo "making git directory"; mkdir /home/jg/.dotfiles
+[ -d "/home/jg/.dotfiles" ] && echo "Directory already exists" || echo "making git directory"; mkdir $HOME/.dotfiles
 
 #setup ssh keys TODO
 
