@@ -6,5 +6,5 @@ function highlight_pink {
 }
 
 sudo dnf install dnf-plugins-core && sudo dnf config-manager addrepo --from-repofile="https://download.docker.com/linux/fedora/docker-ce.repo" && 
-    sudo systemctl enable docker && sudo docker run hello-world || highlight_pink "Pobably something went wrong"
+    sudo systemctl enable --now docker && sudo docker run hello-world || highlight_pink "Pobably something went wrong"
 
