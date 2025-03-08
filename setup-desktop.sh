@@ -15,7 +15,6 @@
 #- adding vim motions to notes TODO
 #source config files at the end !!done
 #add Dependencies !!done
-# gnome extensions !!done
 # install docker - maybe make in another file !!done
 #Update packages !!done
 
@@ -25,11 +24,6 @@
 RED='\033[0;31m'
 NC='\033[0m' # No color
 
-#copr package list 
-#yazi
-#ghossty
-#shell-color-scipts
-#Package lists
 copr_array(
     "yazi" "ghostty" "shell-color-scripts"
 )
@@ -42,7 +36,6 @@ rpm_array=(
     "ripgrep" "papirus-icon-theme-dark.noarch"
     "eza"
 )
-
 flatpak_array=(
     "com.brave.Browser"
     "com.rtosta.zapzap" 
@@ -66,6 +59,7 @@ flatpak_array=(
     "io.missioncenter.MissionCenter"
     "org.gnome.Papers "
     "app.zen_browser.zen"
+    "net.codelogistics.webapps"
 )
 
 dotfiles_array(
@@ -137,7 +131,7 @@ install-rpm() {
 
 install-flatpak () {
     for package in flatpak_array; do
-        sudo flatpak install flathub package
+        sudo flatpak install --user flathub package
     done
 }
 
@@ -150,24 +144,24 @@ function installit(){
 install-copr
 install-rpm
 install-flatpak
+flatpak install --user https://sober.vinegarhq.org/sober.flatpakref #installing sober
+
 
 if [ -f $PWD/setup-docker.sh ]; then
     . $PWD/setup-docker.sh
 fi
 
 #Creating directories
-[ -d "/home/jg/git" ] && echo "Directory already exists" || echo "making git directory"; mkdir $HOME/git 
- 
-[ -d "/home/jg/.dotfiles" ] && echo "Directory already exists" || echo "making git directory"; mkdir $HOME/.dotfiles
+[ -d "$HOME/git" ] && echo "Directory exists, proceeding" || echo "making git directory"; mkdir $HOME/git 
 
-#setup ssh keys TODO
+[ -d "$HOME/.dotfiles" ] && echo "Directory exists, proceeding" || echo "making dotfiles cdirectory"; mkdir $HOME/.dotfiles
+
+[ -d "$HOME/.config/nvim" ] && echo "Directory exists, proceeding" || echo "making nvim directory"; mkdir $HOME/.config/nvim
 
 #Setting Up github dotfiles
 is-installed "git" && ( 
     cd $HOME/git 
-    git clone git@github.com:JGdotexe/dotfiles.git && git clone git@github.com:JGdotexe/nvim-config.git || echo better setup the ssh git keys my man
-    mv -i $HOME/git/dotfiles/* $HOME/.dotfiles 
-    [ -d "/home/jg/.config/nvim" ] && mkdir $HOME/.config/nvim && mv -i $HOME/git/nvim-config/* $HOME/.config/nvim
+    git clone https://github.com/JGdotexe/dotfiles.git $HOME/.dotfiles && git clone https://github.com/JGdotexe/nvim-config.git $HOME/.config/nvim
 )
 
 ln -s $HOME/.dotfiles/.bashrc $HOME/.bashrc
@@ -180,6 +174,5 @@ ln -s $HOME/.dotfiles/.aliasrc $HOME/.aliasrc
 sudo dnf update -y && sudo dnf upgrade -y
 
 flatpak update -y
-
 
 sourcing
