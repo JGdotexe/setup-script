@@ -10,7 +10,7 @@ install-copr() { #maybe optimise making a map
 rpm_array=(
     "zsh" "neovim" "git" "fzf"
     "bat" "gparted" "btop" 
-    "eza" "fastfetch"
+    "eza" "fastfetch" "wl-clipboard"
     "gnome-tweaks" "corectrl" "zoxide"
     "btrfs-assistant" "corectrl" "pavucontrol"
     "ripgrep" "papirus-icon-theme-dark.noarch"
