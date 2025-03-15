@@ -24,5 +24,10 @@ git clone https://github.com/Aloxaf/fzf-tab "$HOME/git"
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/git"
 git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME/git"
 
-source "$HOME/.bashrc"
-source "$HOME/.zshrc"
+if [ "$SHELL" = "/usr/bin/bash" ]; then
+    source $HOME/.bashrc
+fi
+
+if [ "$SHELL" = "/usr/bin/bash" ]; then
+    source "$HOME/.zshrc"
+fi
