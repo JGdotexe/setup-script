@@ -22,11 +22,8 @@
 
 # Defining color codes 
 RED='\033[0;31m'
-NC='\033[0m' # No color
+NC='\033[0m' 
 
-copr_array(
-    "yazi" "ghostty" "shell-color-scripts"
-)
 
 rpm_array=(
     "neovim" "git" "fzf" 
@@ -80,28 +77,12 @@ sourcing(){
     done
 }
 
-install-copr() {
-    local packages=("$@")
-    for package in "${packages[@]}"; do
-        case $package in 
-            yazi)
-                sudo dnf enable varlad/yazi -y
-                sudo dnf install yazi -y
-                ;;
-            ghostty)
-                dnf copr enable pgdev/ghostty -y
-                dnf install ghostty -y 
-                ;;
-            shell-color-scripts)
-                dnf copr enable foopsss/shell-color-scripts -y
-                dnf install shell-color-scripts -y
-                ;;
-            *)
-                "Unknown package: $package"
-                ;;
-        esac
-    done
+install-copr() { #maybe optimise making a map
+    sudo dnf copr enable varlad/yazi -y && sudo dnf install yazi -y
+    sudo dnf copr enable pgdev/ghostty -y && sudo dnf install ghostty -y
+    sudo dnf copr enable foopsss/shell-color-scripts -y && sudo dnf install shell-color-scripts -y
 }
+
 
 function error_message {
     echo -e "${RED}$1${NC}"
@@ -152,22 +133,24 @@ if [ -f $PWD/setup-docker.sh ]; then
 fi
 
 #Creating directories
-[ -d "$HOME/git" ] && echo "Directory exists, proceeding" || echo "making git directory"; mkdir $HOME/git 
+[ -d "$HOME/git" ] && echo "Directory exists, proceeding" || { echo "making git directory"; mkdir -p "$HOME/git" }
 
-[ -d "$HOME/.dotfiles" ] && echo "Directory exists, proceeding" || echo "making dotfiles cdirectory"; mkdir $HOME/.dotfiles
+[ -d "$HOME/.dotfiles" ] && echo "Directory exists, proceeding" ||{ echo "making dotfiles cdirectory"; mkdir -p "$HOME/.dotfiles" } 
 
-[ -d "$HOME/.config/nvim" ] && echo "Directory exists, proceeding" || echo "making nvim directory"; mkdir $HOME/.config/nvim
+[ -d "$HOME/.config/nvim" ] && echo "Directory exists, proceeding" || { echo "making nvim directory"; mkdir -p "$HOME/.config/nvim" }
 
 #Setting Up github dotfiles
-is-installed "git" && ( 
-    cd $HOME/git 
-    git clone https://github.com/JGdotexe/dotfiles.git $HOME/.dotfiles && git clone https://github.com/JGdotexe/nvim-config.git $HOME/.config/nvim
-)
+#is-installed "git" && ( 
+#    cd $HOME/git 
+#    git clone https://github.com/JGdotexe/dotfiles.git $HOME/.dotfiles && git clone https://github.com/JGdotexe/nvim-config.git $HOME/.config/nvim
+#)
 
-ln -s $HOME/.dotfiles/.bashrc $HOME/.bashrc
-ln -s $HOME/.dotfiles/.zshrc $HOME/.zshrc
-ln -s $HOME/.dotfiles/.aliasrc $HOME/.aliasrc
-[ -d "$HOME/.config/ghostty" ] && mkdir $HOME/.config/ghostty && ln -s $HOME/.dotfiles/config $HOME/.config/ghostty
+git clone https://github.com/JGdotexe/dotfiles.git "$HOME/.dotfiles" && git clone https://github.com/JGdotexe/nvim-config.git "$HOME/.config/nvim" 
+
+ln -s "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
+ln -s "$HOME/.dotfiles/.zshrc" "$HOME/.zshrc"
+ln -s "$HOME/.dotfiles/.aliasrc" "$HOME/.aliasrc"
+[ ! -d "$HOME/.config/ghostty" ] && mkdir -p "$HOME/.config/ghostty" && ln -s "$HOME/.dotfiles/config" "$HOME/.config/ghostty"
 
 
 #for last 
