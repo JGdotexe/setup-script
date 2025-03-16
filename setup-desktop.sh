@@ -35,19 +35,19 @@ sourcing(){
     done
 }
 
-if [ -f $PWD/installation.sh ]; then
+if [ -f "$PWD/installation.sh" ]; then
     . $PWD/installation.sh
 fi
 
-if [ -f $PWD/setup-docker.sh ]; then
+if [ -f "$PWD/setup-docker.sh" ]; then
     . $PWD/setup-docker.sh
 fi
 
-if [ -f $PWD/setup-dofiles.sh ]; then
+if [ -f "$PWD/setup-dofiles.sh" ]; then
     . $PWD/setup-dofiles.sh
 fi
 
-if [ -f $PWD/setup-ssh.sh ]; then
+if [ -f "$PWD/setup-ssh.sh" ]; then
     . $PWD/setup-ssh.sh
 fi
 

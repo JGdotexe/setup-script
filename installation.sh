@@ -5,6 +5,7 @@ install-copr() { #maybe optimise making a map
     sudo dnf copr enable pgdev/ghostty -y && sudo dnf install ghostty -y
     sudo dnf copr enable foopsss/shell-color-scripts -y && sudo dnf install shell-color-scripts -y
     sudo dnf copr enable atim/starship -y && sudo dnf install starship -y
+    sudo dnf copr enable atim/lazygit -y && sudo dnf install lazygit
 }
 
 rpm_array=(
@@ -59,3 +60,6 @@ install-flatpak() {
 install-rpm "${rpm_array[@]}"
 install-flatpak "${flatpak_array[@]}"
 install-copr
+
+#installing lazydocker 
+curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
